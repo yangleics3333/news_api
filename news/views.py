@@ -25,15 +25,16 @@ class NewsInfoViews(GenericAPIView):
     def find_time(self, request):
         return Response(data=NewsSerializers(instance=self.queryset.filter(news_time__gt='2021-02-08 13:27:00').order_by('-news_time')[:20], many=True).data)
 
+
 class NewsAddViews(GenericAPIView):
     serializer_class = NewsSerializers
 
-    def post(self,request):
+    def post(self, request):
         data = NewsSerializers(data=request.data)
         if data.is_valid():
             print('True')
             print(data.validated_data)
             data.save()
-            return Response({'code':1,'msg':'succeed'})
+            return Response({'code': 1, 'msg': 'succeed'})
         else:
-            return Response({'code':0,'msg':data.errors})
+            return Response({'code': 0, 'msg': data.errors})
